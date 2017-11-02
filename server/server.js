@@ -17,17 +17,18 @@ var io = socketIO(server);
 io.on('connection', (socket) => {
     console.log('new user connected');
 
-    socket.emit('newMessage', generateMessage('admin', 'New user joined'));
+    socket.broadcast.emit('newMessage', generateMessage('admin', 'New user joined'));
 
-    socket.broadcast.emit('newMessage', generateMessage('admin', 'Welcome new user'));
+    socket.emit('newMessage', generateMessage('admin', 'Welcome new user'));
 
 
     socket.on('disconnect', () => {
         console.log('user disconnected');
     });
 
-    socket.on('createMessage', (message) => {
+    socket.on('createMessage', (message, callback) => {
         io.emit('newMessage', generateMessage(message.from, message.text));
+        callback('lololol');
         // socket.broadcast.emit('newMessage', {
         //     from: message.from,
         //     text: message.text,
