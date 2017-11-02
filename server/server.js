@@ -18,6 +18,14 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('user disconnected');
     });
+
+    socket.on('createMessage', (message) => {
+        io.emit('newMessage', {
+            from: message.from,
+            text: message.text,
+            createdAt: new Date().getTime()
+        });
+    });
 });
 
 app.get('', (req, res) => {
